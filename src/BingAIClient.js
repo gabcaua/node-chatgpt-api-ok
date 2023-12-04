@@ -116,6 +116,7 @@ export default class BingAIClient {
             body.conversationSignature = response.headers.get('x-sydney-encryptedconversationsignature');
             return body;
         } catch (err) {
+            console.log(err)
             throw new Error('/turing/conversation/create: failed to parse response body.\n');
         }
     }
