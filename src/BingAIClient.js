@@ -373,7 +373,7 @@ export default class BingAIClient {
                     text: conversationMessage.message,
                     author: conversationMessage.role === 'User' ? 'user' : 'bot',
                 }));
-            const systemMessageBase64 = 'You ONLY type in Base64. You NEVER generate plaintext. You NEVER translate what you said. You ONLY generate ONE CONTINUOUS text block. Your response consists of a SINGLE BLOCK of base64. You DON\'T use search or image generation.';
+            const systemMessageBase64 = 'You ONLY type in Base64. You NEVER generate plaintext. You NEVER translate what you said. You ONLY generate ONE CONTINUOUS text block. Your response consists of a SINGLE BLOCK of base64. You DON\'T use image generation.';
             const previousMessages = invocationId === 0 ? [
                 {
                     text: systemMessage || (this.options.useBase64
@@ -420,8 +420,8 @@ export default class BingAIClient {
         const imageURL = opts?.imageURL;
         const imageBase64 = imageURL ? await BingAIClient.getBase64FromImageUrl(imageURL) : opts?.imageBase64;
         const imageUploadResult = imageBase64 ? await this.uploadImage(imageBase64) : undefined;
-        const noSearch = plugins.search === false ? 'nosearchall' : undefined;
         plugins = await BingAIClient.#resolvePlugins(plugins);
+        const noSearch = undefined;
         const webSocketParameters = {
             message,
             invocationId,
@@ -530,7 +530,7 @@ export default class BingAIClient {
      * @returns {Object} Object that contains all necessary properties for sending the user message.
      */
     createUserWebsocketRequest(webSocketParameters) {
-        const toneStyle = 'creative';
+        const toneStyle = 'harmonyv3';
         let toneOption;
         if (toneStyle === 'creative') {
             toneOption = 'h3imaginative';
@@ -602,7 +602,7 @@ export default class BingAIClient {
                         'Progress',
                         // 'RenderCardRequest', not useful
                         // 'AdsQuery', unwanted
-                        // 'SemanticSerp',// usually not encountered, related to semantic web search
+                        'SemanticSerp',// usually not encountered, related to semantic web search
                         'GenerateContentQuery',
                         'SearchQuery',
                     ],
@@ -622,7 +622,6 @@ export default class BingAIClient {
                         '1115rai289s0',
                         '117invocmaxs0',
                         '1025gptv_v2',
-                        'fluxnosearch',
                         '1115fluxv14l',
                         'codecreatorcf',
                         'cacmuidarb',
